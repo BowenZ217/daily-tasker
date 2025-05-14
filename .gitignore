@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# local development test scripts
+dev/
+dev_*.py
+dev_*.ipynb

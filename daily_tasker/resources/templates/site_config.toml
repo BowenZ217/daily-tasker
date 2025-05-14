@@ -1,3 +1,28 @@
-[example_api]
+[global.requests]
+# Default User-Agent for all HTTP requests
+user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0"
+request_interval = 5.0      # Seconds between requests
+retry_times = 3             # Retry count
+retry_interval = 5.0        # Seconds between retries
+timeout = 30.0              # Request timeout
+
+headless = false            # Headless browser mode (no UI)
+user_data_folder = ""
+profile_name = ""
+auto_close = true
+disable_images = false
+mute_audio = true
+
+[global.runtime]
+parallel = false            # Whether to process sites concurrently
+max_workers = 5             # Max number of concurrent sites
+save_results = true         # Whether to save sign-in results
+results_path = "results/"   # Directory to save result files
+generate_report = true      # Whether to generate a local report file
+
+[global.debug]
+log_level = "INFO"          # Logging level: DEBUG, INFO, WARNING, ERROR
+
+[sites.site_1]
 enabled = true
 signin_url = "https://api.example.com/signin"
