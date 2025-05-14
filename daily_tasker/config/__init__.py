@@ -3,6 +3,7 @@
 daily_tasker.config
 -------------------
 
+Config loading interface for site definitions and account credentials.
 """
 from .loader import load_site_accounts, load_site_config
 
