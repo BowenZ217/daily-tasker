@@ -1,0 +1,61 @@
+name: Bump Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version bump type: patch, minor, major'
+        required: true
+        default: 'patch'
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install commitizen
+
+      - name: Show existing Git tags
+        run: |
+          echo "Showing existing tags:"
+          git tag --list
+          echo "Most recent tag (if any):"
+          git describe --tags --abbrev=0 || echo "No tag found"
+
+      - name: Bump version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Perform version bump
+          cz bump --yes --increment ${{ github.event.inputs.bump_type }}
+
+          # Get version from project
+          VERSION=$(cz version --project)
+          BRANCH="chore/bump/v$VERSION"
+
+          # Delete local tag to avoid accidental push
+          git tag -d "v$VERSION" || true
+
+          # Create and push a branch
+          git checkout -b "$BRANCH"
+          git push origin "$BRANCH"
+
+          echo "Version bumped to $VERSION and pushed to branch $BRANCH"

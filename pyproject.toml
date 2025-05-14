@@ -1,0 +1,94 @@
+[project]
+name = "daily-tasker"
+description = "Automate daily sign-ins, reward claiming, and other site tasks using requests and browser automation."
+authors = [
+    { name = "Saudade Z", email = "saudadez217@gmail.com" }
+]
+license = {file = "LICENSE"}
+readme = {file = "README.md", content-type = "text/markdown"}
+requires-python = ">=3.12"
+keywords = ["automation", "signin", "tasks", "browser", "daily", "drissionpage"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Chinese (Simplified)",
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12"
+]
+dynamic = ["version"]
+dependencies = [
+    "requests",
+    "drissionpage"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "mypy",
+    "ruff",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "pre-commit",
+    "commitizen"
+]
+
+[project.urls]
+Homepage = "https://github.com/BowenZ217/daily-tasker"
+Source = "https://github.com/BowenZ217/daily-tasker"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["daily_tasker", "daily_tasker.*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "daily_tasker.__version__"}
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle (error)
+    "F",  # pyflakes
+    "B",  # bugbear
+    "C4", # flake8-comprehensions
+    "I",  # isort
+    "UP", # pyupgrade
+    "SIM" # flake8-simplify
+]
+ignore = [
+    "E501"  # leave it to formatter (black)
+]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+strict = true
+
+[tool.pytest.ini_options]
+minversion = "7.1"
+addopts = "--strict-markers"
+testpaths = ["tests"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.0.1"
+version_files = [
+    "daily_tasker/__init__.py"
+]
+update_changelog_on_bump = true
+changelog_file = "CHANGELOG.md"
+changelog_incremental = true
+tag_format = "v$version"
+bump_message = "chore(release): bump version to $new_version"
