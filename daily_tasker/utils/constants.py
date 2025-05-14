@@ -25,10 +25,15 @@ LOGGER_NAME = PACKAGE_NAME  # Root logger name
 # -----------------------------------------------------------------------------
 # Base config directory (e.g. ~/AppData/Local/daily_tasker/)
 BASE_CONFIG_DIR = Path(user_config_dir(APP_DIR_NAME, appauthor=False))
+WORK_DIR = Path.cwd()
 
 # Subdirectories under BASE_CONFIG_DIR
 DATA_DIR = BASE_CONFIG_DIR / "data"
 CONFIG_DIR = BASE_CONFIG_DIR / "config"
+
+# Subdirectories under WORK_DIR
+LOGGER_DIR = WORK_DIR / "logs"
+TASK_RESULTS_DIR = WORK_DIR / "task_results"
 
 # -----------------------------------------------------------------------------
 # Default file paths
