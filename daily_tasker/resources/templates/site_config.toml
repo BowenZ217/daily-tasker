@@ -1,0 +1,3 @@
+[example_api]
+enabled = true
+signin_url = "https://api.example.com/signin"

@@ -46,6 +46,9 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 include = ["daily_tasker", "daily_tasker.*"]
 
+[tool.setuptools.package-data]
+"daily_tasker.resources.templates" = ["*.toml", "*.yaml"]
+
 [tool.setuptools.dynamic]
 version = {attr = "daily_tasker.__version__"}
 

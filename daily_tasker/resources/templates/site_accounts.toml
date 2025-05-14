@@ -1,0 +1,9 @@
+[example_api.accounts.user1]
+username = "user1@example.com"
+password = "pw1"
+cookies = { sessionid = "abc123", token = "xyz456" }
+
+[example_api.accounts.user2]
+username = "user2@example.com"
+password = "pw2"
+cookies = "sessionid=abc123; token=xyz456"
