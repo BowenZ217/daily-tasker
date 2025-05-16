@@ -10,32 +10,34 @@ Each instance handles one account and a custom sequence of tasks.
 import abc
 import logging
 from collections.abc import Callable
-from typing import Any
 
-from daily_tasker.utils.cookies import resolve_cookies
+from daily_tasker.config.models import (
+    Account,
+    RequesterConfig,
+    SiteConfig,
+)
 
 
 class BaseSite(abc.ABC):
     def __init__(
         self,
-        site_conf: dict[str, Any],
-        account_conf: dict[str, Any],
+        request_conf: RequesterConfig,
+        account_conf: Account,
+        site_conf: SiteConfig,
+        use_browser: bool = False,
     ) -> None:
         """
         Initialize a site instance for a specific account.
 
-        :param site_conf: The configuration dictionary for the site.
-        :param account_conf: The configuration dictionary for the account.
+        :param request_conf: The configuration dict for the request.
+        :param account_conf: The configuration dict for the account.
+        :param site_conf: The configuration dict for the site.
         """
         self._site_conf = site_conf
+        self._request_conf = request_conf
         self._account_conf = account_conf
+        self.use_browser = use_browser
         self.logger = logging.getLogger(f"{__name__}.{self.__class__.__name__}")
-
-        try:
-            self._cookies = resolve_cookies(account_conf.get("cookies", {}))
-        except Exception as e:
-            self._cookies = {}
-            self.logger.warning("Failed to parse cookies: %s", e)
 
         self.task_sequence: list[Callable[[], None]] = []
         self.build_task_sequence()
@@ -57,26 +59,35 @@ class BaseSite(abc.ABC):
         return
 
     @property
-    def site_conf(self) -> dict[str, Any]:
+    def site_conf(self) -> SiteConfig:
         """Access the site configuration."""
         return self._site_conf
 
     @property
-    def account_conf(self) -> dict[str, Any]:
+    def request_conf(self) -> RequesterConfig:
+        """Access the request configuration."""
+        return self._request_conf
+
+    @property
+    def account_conf(self) -> Account:
         """Access the account configuration."""
         return self._account_conf
 
     @property
+    def enabled(self) -> bool:
+        return self._site_conf.enabled
+
+    @property
     def username(self) -> str:
         """Get the username from the account config."""
-        return self._account_conf.get("username", "") or ""
+        return self._account_conf.username
 
     @property
     def password(self) -> str:
         """Get the password from the account config."""
-        return self._account_conf.get("password", "") or ""
+        return self._account_conf.password
 
     @property
     def cookies(self) -> dict[str, str]:
         """Get the cookies from the account config."""
-        return self._cookies
+        return self._account_conf.cookies

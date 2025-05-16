@@ -31,7 +31,7 @@ def setup_logging(
     log_dir: str | Path | None = None,
 ) -> logging.Logger:
     """
-    Configure and return a logger with both console output and daily rotating file logging.
+    Configure and return a logger with both console output and daily rotating file.
 
     :param log_filename_prefix: Optional prefix for the log file name.
                                 If not provided, defaults to ``LOGGER_NAME``.
